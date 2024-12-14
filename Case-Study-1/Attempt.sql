@@ -9,6 +9,11 @@ SELECT
 FROM dannys_diner.sales s join dannys_diner.menu m on s.product_id = m.product_id
 group BY s.customer_id;
 -- 2. How many days has each customer visited the restaurant?
+SELECT
+  	s.customer_id,
+    count(distinct(s.order_date))
+FROM dannys_diner.sales s
+group BY s.customer_id;
 -- 3. What was the first item from the menu purchased by each customer?
 -- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 -- 5. Which item was the most popular for each customer?
