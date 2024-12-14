@@ -15,7 +15,17 @@ SELECT
 FROM dannys_diner.sales s
 group BY s.customer_id;
 -- 3. What was the first item from the menu purchased by each customer?
+SELECT customer_id, product_name, order_date
+FROM (
+  SELECT s.customer_id, s.order_date,  m.product_name,
+         RANK() OVER(PARTITION BY customer_id ORDER BY order_date) AS date_rank,
+         ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date) AS date_row
+  FROM dannys_diner.sales s
+  JOIN menu m ON s.product_id = m.product_id
+) AS subquery
+WHERE date_row = 1;
 -- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+
 -- 5. Which item was the most popular for each customer?
 -- 6. Which item was purchased first by the customer after they became a member?
 -- 7. Which item was purchased just before the customer became a member?
