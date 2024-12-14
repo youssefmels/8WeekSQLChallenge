@@ -25,8 +25,33 @@ FROM (
 ) AS subquery
 WHERE date_row = 1;
 -- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
-
+WITH most_popular_item AS (
+  SELECT m.product_name, COUNT(*) as total_purchases
+  FROM dannys_diner.sales s
+  JOIN dannys_diner.menu m ON s.product_id = m.product_id
+  GROUP BY m.product_name
+  ORDER BY total_purchases DESC
+  LIMIT 1
+)
+SELECT 
+  mpi.product_name, 
+  mpi.total_purchases,
+  s.customer_id,
+  COUNT(*) as customer_item_purchases
+FROM most_popular_item mpi
+JOIN dannys_diner.menu m ON m.product_name = mpi.product_name
+JOIN dannys_diner.sales s ON s.product_id = m.product_id
+GROUP BY mpi.product_name, mpi.total_purchases, s.customer_id
 -- 5. Which item was the most popular for each customer?
+SELECT *
+  FROM (
+    SELECT s.customer_id ,m.product_id, m.product_name, count(s.product_id),
+    RANK() OVER(PARTITION BY customer_id ORDER BY count(s.product_id) desc) as product_rank
+    FROM dannys_diner.sales s
+  JOIN dannys_diner.menu m ON s.product_id = m.product_id
+group by m.product_name, m.product_id, s.customer_id
+    ) as subquery
+    where product_rank = 1
 -- 6. Which item was purchased first by the customer after they became a member?
 -- 7. Which item was purchased just before the customer became a member?
 -- 8. What is the total items and amount spent for each member before they became a member?
