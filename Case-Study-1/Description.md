@@ -1,7 +1,5 @@
 Nothing
 
-![table](https://github.com/[youssefmels]/[8WeekSQLChallenge]/blob/[main]/[Case-Study-1]/[Table.png]?raw=true)
-
 ![table](https://github.com/youssefmels/8WeekSQLChallenge/blob/main/Case-Study-1/Table.png?raw=true)
 
 ![Image](./Case-Study-1/Table.png)
