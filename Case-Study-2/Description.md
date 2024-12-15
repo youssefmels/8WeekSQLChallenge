@@ -15,10 +15,12 @@ He has prepared for us an entity relationship diagram of his database design but
 
 All datasets exist within the pizza_runner database schema - be sure to include this reference within your SQL scripts as you start exploring the data and answering the case study questions.
 Entity Relationship Diagram
+
 ![ERD](https://github.com/user-attachments/assets/19c911b2-e3f4-430a-bb39-4e4985e0014a)
 
 Table 1: runners
 The runners table shows the registration_date for each new runner
+
 ![table1](https://github.com/user-attachments/assets/d7bd0298-b153-40b1-a102-d26a1c738957)
 
 Table 2: customer_orders
@@ -29,6 +31,7 @@ The pizza_id relates to the type of pizza which was ordered whilst the exclusion
 Note that customers can order multiple pizzas in a single order with varying exclusions and extras values even if the pizza is the same type!
 
 The exclusions and extras columns will need to be cleaned up before using them in your queries.
+
 ![table2](https://github.com/user-attachments/assets/e282a20f-40e8-4a61-91c0-a25e8b3afdf1)
 
 Table 3: runner_orders
@@ -37,6 +40,7 @@ After each orders are received through the system - they are assigned to a runne
 The pickup_time is the timestamp at which the runner arrives at the Pizza Runner headquarters to pick up the freshly cooked pizzas. The distance and duration fields are related to how far and long the runner had to travel to deliver the order to the respective customer.
 
 There are some known data issues with this table so be careful when using this in your queries - make sure to check the data types for each column in the schema SQL!
+
 ![table3](https://github.com/user-attachments/assets/f778ec92-1281-42d3-acf5-91b0e00df389)
 
 ![fourandfive](https://github.com/user-attachments/assets/fc47e35c-2d22-4e90-bf10-d5cc67821942)
