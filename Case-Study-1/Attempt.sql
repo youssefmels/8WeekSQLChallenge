@@ -77,6 +77,17 @@ WITH CTE AS
     )
     select * from cte where product_rank = 1;
 -- 8. What is the total items and amount spent for each member before they became a member?
+WITH CTE AS
+  (
+    SELECT s.customer_id ,m.product_name, a.join_date, s.order_date, m.price,
+    RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date desc) as product_rank,
+    ROW_NUMBER () OVER(PARTITION BY s.customer_id ORDER BY s.order_date desc) as prod_row
+    FROM dannys_diner.sales s
+  JOIN dannys_diner.members a ON a.customer_id = s.customer_id
+   JOIN dannys_diner.menu m ON m.product_id = s.product_id
+ where s.order_date < a.join_date
+    )
+    select customer_id, count(product_name) as Total_items, sum(price) as Total_spent from cte group by customer_id;
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
