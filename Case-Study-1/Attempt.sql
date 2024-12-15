@@ -89,6 +89,20 @@ WITH CTE AS
     )
     select customer_id, count(product_name) as Total_items, sum(price) as Total_spent from cte group by customer_id;
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+SELECT s.customer_id ,SUM(CASE 
+WHEN m.product_name = 'sushi' THEN price *20
+ELSE m.price * 10
+END ) as Points
+FROM dannys_diner.menu m join dannys_diner.sales s on m.product_id = s.product_id
+group by s.customer_id
 -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
-
+SELECT s.customer_id , SUM( CASE 
+WHEN m.product_name = 'sushi' THEN price *20
+WHEN s.order_date BETWEEN a.join_date AND a.join_date + INTERVAL '6 days' THEN price *20
+ELSE m.price * 10vEND) as Points
+FROM dannys_diner.menu m
+join dannys_diner.sales s on m.product_id = s.product_id
+join dannys_diner.members a on a.customer_id = s.customer_id
+where date_part('month', order_date) = 1
+group by s.customer_id;
 -- Example Query:
