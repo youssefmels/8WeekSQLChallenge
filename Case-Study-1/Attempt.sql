@@ -105,4 +105,31 @@ join dannys_diner.sales s on m.product_id = s.product_id
 join dannys_diner.members a on a.customer_id = s.customer_id
 where date_part('month', order_date) = 1
 group by s.customer_id;
--- Example Query:
+
+-- Bonus Question: Join All The Things
+--The following questions are related creating basic data tables that Danny and his team can use to quickly derive insights without needing to join the underlying tables using SQL.
+--Recreate the following table output:
+SELECT s.customer_id , s.order_date, m.product_name, m.price, CASE 
+WHEN s.customer_id = a.customer_id AND s.order_date >= a.join_date THEN 'Y'
+ELSE 'N' END as member
+FROM dannys_diner.menu m
+join dannys_diner.sales s on m.product_id = s.product_id
+left join dannys_diner.members a on a.customer_id = s.customer_id
+order by s.customer_id, order_date;
+
+-- Bonus Question: Rank All The Things
+-- Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for non-member purchases,
+-- so he expects null ranking values for the records when customers are not yet part of the loyalty program.
+with CTE as (
+SELECT s.customer_id , s.order_date, m.product_name, m.price, CASE 
+WHEN s.customer_id = a.customer_id AND s.order_date >= a.join_date THEN 'Y'
+ELSE 'N' END as member
+FROM dannys_diner.menu m
+join dannys_diner.sales s on m.product_id = s.product_id
+left join dannys_diner.members a on a.customer_id = s.customer_id
+order by s.customer_id, order_date )
+
+SELECT *, CASE WHEN member = 'N' THEN NULL
+ELSE RANK () OVER (PARTITION BY customer_id, member order by order_date) 
+END as rank
+from CTE;
