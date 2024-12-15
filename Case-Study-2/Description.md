@@ -14,5 +14,98 @@ Because Danny had a few years of experience as a data scientist - he was very aw
 He has prepared for us an entity relationship diagram of his database design but requires further assistance to clean his data and apply some basic calculations so he can better direct his runners and optimise Pizza Runner’s operations.
 
 All datasets exist within the pizza_runner database schema - be sure to include this reference within your SQL scripts as you start exploring the data and answering the case study questions.
-
+Entity Relationship Diagram
 ![ERD](https://github.com/user-attachments/assets/19c911b2-e3f4-430a-bb39-4e4985e0014a)
+
+Table 1: runners
+The runners table shows the registration_date for each new runner
+![table1](https://github.com/user-attachments/assets/d7bd0298-b153-40b1-a102-d26a1c738957)
+
+Table 2: customer_orders
+Customer pizza orders are captured in the customer_orders table with 1 row for each individual pizza that is part of the order.
+
+The pizza_id relates to the type of pizza which was ordered whilst the exclusions are the ingredient_id values which should be removed from the pizza and the extras are the ingredient_id values which need to be added to the pizza.
+
+Note that customers can order multiple pizzas in a single order with varying exclusions and extras values even if the pizza is the same type!
+
+The exclusions and extras columns will need to be cleaned up before using them in your queries.
+![table2](https://github.com/user-attachments/assets/e282a20f-40e8-4a61-91c0-a25e8b3afdf1)
+
+Table 3: runner_orders
+After each orders are received through the system - they are assigned to a runner - however not all orders are fully completed and can be cancelled by the restaurant or the customer.
+
+The pickup_time is the timestamp at which the runner arrives at the Pizza Runner headquarters to pick up the freshly cooked pizzas. The distance and duration fields are related to how far and long the runner had to travel to deliver the order to the respective customer.
+
+There are some known data issues with this table so be careful when using this in your queries - make sure to check the data types for each column in the schema SQL!
+![table3](https://github.com/user-attachments/assets/f778ec92-1281-42d3-acf5-91b0e00df389)
+
+![fourandfive](https://github.com/user-attachments/assets/fc47e35c-2d22-4e90-bf10-d5cc67821942)
+
+![six](https://github.com/user-attachments/assets/84ffdca4-a3a8-48dd-abdf-e5bfaf960c06)
+
+Case Study Questions
+This case study has LOTS of questions - they are broken up by area of focus including:
+
+Pizza Metrics
+Runner and Customer Experience
+Ingredient Optimisation
+Pricing and Ratings
+Bonus DML Challenges (DML = Data Manipulation Language)
+Each of the following case study questions can be answered using a single SQL statement.
+
+Again, there are many questions in this case study - please feel free to pick and choose which ones you’d like to try!
+
+Before you start writing your SQL queries however - you might want to investigate the data, you may want to do something with some of those null values and data types in the customer_orders and runner_orders tables!
+
+A. Pizza Metrics
+How many pizzas were ordered?
+How many unique customer orders were made?
+How many successful orders were delivered by each runner?
+How many of each type of pizza was delivered?
+How many Vegetarian and Meatlovers were ordered by each customer?
+What was the maximum number of pizzas delivered in a single order?
+For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+How many pizzas were delivered that had both exclusions and extras?
+What was the total volume of pizzas ordered for each hour of the day?
+What was the volume of orders for each day of the week?
+B. Runner and Customer Experience
+How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+Is there any relationship between the number of pizzas and how long the order takes to prepare?
+What was the average distance travelled for each customer?
+What was the difference between the longest and shortest delivery times for all orders?
+What was the average speed for each runner for each delivery and do you notice any trend for these values?
+What is the successful delivery percentage for each runner?
+C. Ingredient Optimisation
+What are the standard ingredients for each pizza?
+What was the most commonly added extra?
+What was the most common exclusion?
+Generate an order item for each record in the customers_orders table in the format of one of the following:
+Meat Lovers
+Meat Lovers - Exclude Beef
+Meat Lovers - Extra Bacon
+Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
+Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
+For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
+What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+D. Pricing and Ratings
+If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?
+What if there was an additional $1 charge for any pizza extras?
+Add cheese is $1 extra
+The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own data for ratings for each successful customer order between 1 to 5.
+Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
+customer_id
+order_id
+runner_id
+rating
+order_time
+pickup_time
+Time between order and pickup
+Delivery duration
+Average speed
+Total number of pizzas
+If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
+E. Bonus Questions
+If Danny wants to expand his range of pizzas - how would this impact the existing data design? Write an INSERT statement to demonstrate what would happen if a new Supreme pizza with all the toppings was added to the Pizza Runner menu?
+
+Conclusion
