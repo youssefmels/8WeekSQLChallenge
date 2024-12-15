@@ -53,6 +53,17 @@ group by m.product_name, m.product_id, s.customer_id
     ) as subquery
     where product_rank = 1
 -- 6. Which item was purchased first by the customer after they became a member?
+SELECT *
+  FROM (
+    SELECT s.customer_id ,m.product_name, a.join_date, s.order_date,
+    RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date) as product_rank
+    FROM dannys_diner.sales s
+  JOIN dannys_diner.members a ON a.customer_id = s.customer_id
+   JOIN dannys_diner.menu m ON m.product_id = s.product_id
+ where s.order_date >= a.join_date
+    
+    ) as subquery
+    where product_rank = 1
 -- 7. Which item was purchased just before the customer became a member?
 -- 8. What is the total items and amount spent for each member before they became a member?
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
