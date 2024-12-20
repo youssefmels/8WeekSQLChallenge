@@ -5,7 +5,9 @@
 -- 1. How many pizzas were ordered?
 SELECT count(*) as Number_of_Pizzas_Ordered from customer_orders;
 -- 2. How many unique customer orders were made?
+SELECT count(distinct(order_id)) as Unique_Customer_Orders from customer_orders;
 -- 3. How many successful orders were delivered by each runner?
+SELECT runner_id, count(distinct(order_id)) from runner_orders where cancellation NOT LIKE 'Cancellation' group by runner_id
 -- 4. How many of each type of pizza was delivered?
 -- 5. How many Vegetarian and Meatlovers were ordered by each customer?
 -- 6. What was the maximum number of pizzas delivered in a single order?
