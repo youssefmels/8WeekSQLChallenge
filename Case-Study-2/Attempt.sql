@@ -35,6 +35,12 @@ join runner_orders r on c.order_id = r.order_id
 where (r.cancellation not in ('Customer Cancellation','Restaurant Cancellation') or cancellation is null)
 group by c.customer_id order by c.customer_id;
 -- 8. How many pizzas were delivered that had both exclusions and extras?
+SELECT
+sum(CASE WHEN (c.exclusions is not null and length(c.exclusions) > 0 and c.exclusions <> 'null') and 
+    (c.extras is not null and length(c.extras) > 0 and c.extras <> 'null') then 1 else 0 end) as Pizzas_with_Exclusions_and_Extras
+from customer_orders c
+join runner_orders r on c.order_id = r.order_id 
+where (r.cancellation not in ('Customer Cancellation','Restaurant Cancellation') or cancellation is null);
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
 -- 10. What was the volume of orders for each day of the week?
 
