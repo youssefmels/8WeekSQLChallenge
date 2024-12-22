@@ -9,6 +9,12 @@ SELECT count(distinct(order_id)) as Unique_Customer_Orders from customer_orders;
 -- 3. How many successful orders were delivered by each runner?
 SELECT runner_id, count(distinct(order_id)) from runner_orders where cancellation NOT LIKE 'Cancellation' group by runner_id
 -- 4. How many of each type of pizza was delivered?
+select p.pizza_name, count(c.pizza_id)
+from customer_orders c 
+join runner_orders r on c.order_id = r.order_id 
+join pizza_names p on c.pizza_id = p.pizza_id
+where r.cancellation not in ('Customer Cancellation', 'Restaurant Cancellation') or cancellation is null
+group by p.pizza_name
 -- 5. How many Vegetarian and Meatlovers were ordered by each customer?
 -- 6. What was the maximum number of pizzas delivered in a single order?
 -- 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
