@@ -44,6 +44,7 @@ where (r.cancellation not in ('Customer Cancellation','Restaurant Cancellation')
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
 SELECT DATE_PART('HOUR', order_time) as hour, count(c.pizza_id) as Total_Pizzas from customer_orders c group by hour order by hour;
 -- 10. What was the volume of orders for each day of the week?
+SELECT DATE_PART('DOW', order_time) as Day_of_week, count(c.pizza_id) as Total_Pizzas from customer_orders c group by Day_of_week order by Day_of_week;
 
 --            B. Runner and Customer Experience
 -- 1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
