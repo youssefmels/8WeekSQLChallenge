@@ -16,6 +16,9 @@ join pizza_names p on c.pizza_id = p.pizza_id
 where r.cancellation not in ('Customer Cancellation', 'Restaurant Cancellation') or cancellation is null
 group by p.pizza_name
 -- 5. How many Vegetarian and Meatlovers were ordered by each customer?
+SELECT customer_id, p.pizza_name, count(c.pizza_id) from customer_orders c 
+join pizza_names p on c.pizza_id = p.pizza_id 
+group by p.pizza_name, c.customer_id;
 -- 6. What was the maximum number of pizzas delivered in a single order?
 -- 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 -- 8. How many pizzas were delivered that had both exclusions and extras?
