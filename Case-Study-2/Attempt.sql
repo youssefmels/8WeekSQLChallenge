@@ -20,7 +20,12 @@ SELECT customer_id, p.pizza_name, count(c.pizza_id) from customer_orders c
 join pizza_names p on c.pizza_id = p.pizza_id 
 group by p.pizza_name, c.customer_id;
 -- 6. What was the maximum number of pizzas delivered in a single order?
+SELECT c.order_id, count(c.pizza_id) as Total_pizzas_ordered from customer_orders c
+join runner_orders r on c.order_id = r.order_id 
+where r.cancellation not in ('Customer Cancellation', 'Restaurant Cancellation') or cancellation is null
+group by c.order_id order by Total_pizzas_ordered desc limit 1;
 -- 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+
 -- 8. How many pizzas were delivered that had both exclusions and extras?
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
 -- 10. What was the volume of orders for each day of the week?
