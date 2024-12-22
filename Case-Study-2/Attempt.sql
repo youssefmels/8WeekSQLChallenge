@@ -42,6 +42,7 @@ from customer_orders c
 join runner_orders r on c.order_id = r.order_id 
 where (r.cancellation not in ('Customer Cancellation','Restaurant Cancellation') or cancellation is null);
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
+SELECT DATE_TRUNC('hour' ,order_time) as Hour, count(c.pizza_id) as Total_Pizzas from customer_orders c group by Hour;
 -- 10. What was the volume of orders for each day of the week?
 
 --            B. Runner and Customer Experience
