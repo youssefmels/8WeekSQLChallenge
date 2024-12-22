@@ -25,7 +25,15 @@ join runner_orders r on c.order_id = r.order_id
 where r.cancellation not in ('Customer Cancellation', 'Restaurant Cancellation') or cancellation is null
 group by c.order_id order by Total_pizzas_ordered desc limit 1;
 -- 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
-
+SELECT c.customer_id, count(pizza_id),
+sum(CASE WHEN (c.exclusions is not null and length(c.exclusions) > 0 and c.exclusions <> 'null') or 
+    (c.extras is not null and length(c.extras) > 0 and c.extras <> 'null') then 1 else 0 end) as at_least_1_change,
+sum(CASE WHEN (c.exclusions is not null and length(c.exclusions) > 0 and c.exclusions <> 'null') or 
+    (c.extras is not null and length(c.extras) > 0 and c.extras <> 'null') then 0 else 1 end)  as No_changes
+from customer_orders c
+join runner_orders r on c.order_id = r.order_id 
+where (r.cancellation not in ('Customer Cancellation','Restaurant Cancellation') or cancellation is null)
+group by c.customer_id order by c.customer_id;
 -- 8. How many pizzas were delivered that had both exclusions and extras?
 -- 9. What was the total volume of pizzas ordered for each hour of the day?
 -- 10. What was the volume of orders for each day of the week?
