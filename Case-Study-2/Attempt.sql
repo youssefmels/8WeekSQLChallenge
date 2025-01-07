@@ -73,5 +73,8 @@ SELECT
 -- 5. What was the difference between the longest and shortest delivery times for all orders?
 SELECT MAX(SUBSTRING(duration,'[0-9]+')::int) - MIN(SUBSTRING(duration, '[0-9]+')::int) as Time_Difference FROM runner_orders
 -- 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
+SELECT runner_id, order_id, 
+ROUND(AVG(REPLACE(distance,'km','')::numeric/(SUBSTRING(duration, '[0-9]+')::numeric)), 3) as Speed 
+FROM runner_orders where distance <> 'null' group by runner_id, order_id order by runner_id, order_id
 
 -- 7. What is the successful delivery percentage for each runner?
