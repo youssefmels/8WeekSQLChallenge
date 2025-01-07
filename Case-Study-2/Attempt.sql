@@ -57,13 +57,19 @@ SELECT
 	from customer_orders c join runner_orders r on c.order_id = r.order_id where pickup_time <> 'null' 
 group by r.runner_id
 -- 3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
-SELECT
+WITH CTE AS (SELECT
 	ROUND((EXTRACT(EPOCH FROM (r.pickup_time::timestamp - c.order_time))/60)::numeric, 0) as Time,
-    count(c.pizza_id), c.order_id from
+    count(c.pizza_id) as num_pizzas, c.order_id from
     customer_orders c join runner_orders r on c.order_id = r.order_id
     where pickup_time <> 'null' 
-group by c.order_id, r.pickup_time, c.order_time
+group by c.order_id, r.pickup_time, c.order_time)
+
+SELECT num_pizzas, round(avg(Time), 0) as Time from CTE group by num_pizzas order by num_pizzas
 -- 4. What was the average distance travelled for each customer?
+SELECT
+	round(avg(replace(distance, 'km', '')::numeric), 1) as Int_Distance, customer_id from
+    customer_orders c join runner_orders r on c.order_id = r.order_id
+    where pickup_time <> 'null' group by customer_id
 -- 5. What was the difference between the longest and shortest delivery times for all orders?
 -- 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
 -- 7. What is the successful delivery percentage for each runner?
