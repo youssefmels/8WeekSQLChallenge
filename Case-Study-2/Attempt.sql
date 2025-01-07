@@ -76,5 +76,13 @@ SELECT MAX(SUBSTRING(duration,'[0-9]+')::int) - MIN(SUBSTRING(duration, '[0-9]+'
 SELECT runner_id, order_id, 
 ROUND(AVG(REPLACE(distance,'km','')::numeric/(SUBSTRING(duration, '[0-9]+')::numeric)), 3) as Speed 
 FROM runner_orders where distance <> 'null' group by runner_id, order_id order by runner_id, order_id
-
 -- 7. What is the successful delivery percentage for each runner?
+select runner_id, 
+ROUND(SUM(
+CASE
+	WHEN
+    		(cancellation NOT in ('Customer Cancellation', 'Restaurant Cancellation') or cancellation is NULL) THEN 1 
+	ELSE 0
+    	END)/count(order_id)::numeric * 100,0) as Successful_Deliveries_Percentage
+from runner_orders 
+group by runner_id
