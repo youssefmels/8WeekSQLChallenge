@@ -71,5 +71,7 @@ SELECT
     customer_orders c join runner_orders r on c.order_id = r.order_id
     where pickup_time <> 'null' group by customer_id
 -- 5. What was the difference between the longest and shortest delivery times for all orders?
+SELECT MAX(SUBSTRING(duration,'[0-9]+')::int) - MIN(SUBSTRING(duration, '[0-9]+')::int) as Time_Difference FROM runner_orders
 -- 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
+
 -- 7. What is the successful delivery percentage for each runner?
